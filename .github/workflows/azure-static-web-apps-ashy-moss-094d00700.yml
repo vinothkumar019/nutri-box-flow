@@ -41,13 +41,12 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_MOSS_094D00700 }}
           action: "upload"
-
           ###### Repository/Build Configurations ######
-          # Path to your app (where package.json and vite.config.ts are)
+          # App source path where your vite.config.ts and package.json exist
           app_location: "/" 
-          # Leave blank if you don't have an API
+          # If you don't have a backend/API, leave blank
           api_location: "" 
-          # ✅ Vite builds to "dist", not "build"
+          # ✅ IMPORTANT: Vite outputs to "dist", not "build"
           output_location: "dist" 
           github_id_token: ${{ steps.idtoken.outputs.result }}
           ###### End of Repository/Build Configurations ######
