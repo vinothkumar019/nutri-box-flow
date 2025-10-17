@@ -15,7 +15,7 @@ interface CartItem {
 const Cart = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState<CartItem[]>([
-    { id: 1, name: "Today's NutriBox", price: 15.99, quantity: 1 },
+    { id: 1, name: "Today's NutriBox", price: 499.0, quantity: 1 },
   ]);
 
   const updateQuantity = (id: number, change: number) => {
@@ -36,6 +36,10 @@ const Cart = () => {
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * 0.1;
   const total = subtotal + tax;
+
+  // Utility for INR currency format
+  const formatINR = (amount: number) =>
+    new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(amount);
 
   const handleCheckout = () => {
     toast.success("Order placed successfully!");
@@ -69,7 +73,7 @@ const Cart = () => {
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
                     <h3 className="font-bold text-lg text-foreground mb-1">{item.name}</h3>
-                    <p className="text-muted-foreground">${item.price.toFixed(2)} each</p>
+                    <p className="text-muted-foreground">{formatINR(item.price)} each</p>
                   </div>
                   
                   <div className="flex items-center gap-2">
@@ -90,9 +94,9 @@ const Cart = () => {
                     </Button>
                   </div>
                   
-                  <div className="text-right min-w-[80px]">
+                  <div className="text-right min-w-[100px]">
                     <p className="font-bold text-lg text-foreground">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {formatINR(item.price * item.quantity)}
                     </p>
                   </div>
                   
@@ -117,15 +121,15 @@ const Cart = () => {
             <div className="space-y-2">
               <div className="flex justify-between text-muted-foreground">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>{formatINR(subtotal)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
-                <span>Tax</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>Tax (10%)</span>
+                <span>{formatINR(tax)}</span>
               </div>
               <div className="flex justify-between text-lg font-bold text-foreground">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>{formatINR(total)}</span>
               </div>
             </div>
             <Button variant="hero" className="w-full" onClick={handleCheckout}>
